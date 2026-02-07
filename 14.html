@@ -71,24 +71,22 @@ body::before {
 .intro-gif {
     width: 200px;
     max-width: 50vw;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     animation: gentleFloat 4s ease-in-out infinite;
     border-radius: 10px;
     background-color: transparent;
 }
 
-/* CORRECTION 1: Texte d'intro avec saut de ligne sur mobile */
+/* CORRECTION 1: Texte d'intro responsive avec saut de ligne */
 .wave-text {
-    display: inline-block;
-    font-size: clamp(20px, 4.5vw, 28px);
+    display: block;
+    font-size: clamp(24px, 5vw, 32px);
     font-weight: bold;
     text-align: center;
-    margin-bottom: 30px;
-    padding: 0 15px;
+    margin-bottom: 40px;
+    padding: 0 20px;
     line-height: 1.4;
-    max-width: 100%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    max-width: 90%;
 }
 
 .wave-text span {
@@ -101,12 +99,12 @@ body::before {
 .wave-text .space {
     display: inline-block;
     width: 0.3em;
-    min-width: 4px;
+    min-width: 5px;
 }
 
 @keyframes waveBounce {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-12px); }
 }
 
 /* Décalage progressif pour chaque lettre */
@@ -248,13 +246,11 @@ body::before {
     margin-top: 10px;
 }
 
-/* BOUTON OUI */
-#yesBtn {
+/* Boutons */
+button {
     position: absolute;
-    padding: 14px 28px;
+    padding: 14px 24px;
     font-size: clamp(15px, 3.5vw, 18px);
-    background: linear-gradient(45deg, var(--primary-pink), var(--secondary-pink));
-    color: var(--white);
     border: none;
     border-radius: 15px;
     cursor: pointer;
@@ -268,38 +264,47 @@ body::before {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    left: 40%;
+    transform-origin: center center;
+}
+
+/* BOUTON OUI */
+#yesBtn {
+    background: linear-gradient(45deg, var(--primary-pink), var(--secondary-pink));
+    color: var(--white);
+    left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(1);
     animation: pulse 2s infinite;
     z-index: 20;
-    transform-origin: center center;
+    padding: 14px 28px;
 }
 
-/* BOUTON NON */
+/* BOUTON NON - Position initiale */
 #noBtn {
-    position: absolute;
-    padding: 12px 20px;
-    font-size: clamp(14px, 3.2vw, 16px);
     background: linear-gradient(45deg, var(--dark-gray), #666);
     color: var(--white);
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    box-shadow: 0 6px 20px var(--shadow);
-    user-select: none;
-    min-width: 110px;
-    max-width: 85vw;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    left: 60%;
+    left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(30%, -50%);
     z-index: 10;
+    padding: 12px 20px;
+    font-size: clamp(14px, 3.2vw, 16px);
+    max-width: 85vw;
+    transition: left 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* CORRECTION 2: Animation de vibration qui n'affecte pas la position */
+@keyframes vibrate {
+    0% { transform: scale(1) rotate(0deg); }
+    20% { transform: scale(1.05) rotate(-2deg); }
+    40% { transform: scale(1) rotate(2deg); }
+    60% { transform: scale(1.05) rotate(-1deg); }
+    80% { transform: scale(1) rotate(1deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.vibrate {
+    animation: vibrate 0.3s ease-in-out;
 }
 
 @keyframes pulse {
@@ -413,30 +418,18 @@ button:hover {
     }
 }
 
-/* Vibration mobile */
-@keyframes vibrate {
-    0% { transform: translateX(0); }
-    20% { transform: translateX(-2px); }
-    40% { transform: translateX(2px); }
-    60% { transform: translateX(-1px); }
-    80% { transform: translateX(1px); }
-    100% { transform: translateX(0); }
-}
-
-.vibrate {
-    animation: vibrate 0.3s ease-in-out;
-}
-
 /* Adaptation responsive */
 @media (max-width: 768px) {
     .intro-gif {
         width: 160px;
-        margin-bottom: 25px;
+        margin-bottom: 30px;
     }
     
     .wave-text {
-        font-size: clamp(18px, 4vw, 24px);
-        margin-bottom: 25px;
+        font-size: clamp(20px, 4.5vw, 26px);
+        margin-bottom: 30px;
+        white-space: normal;
+        word-wrap: break-word;
         line-height: 1.5;
     }
     
@@ -474,24 +467,31 @@ button:hover {
     .floating {
         font-size: 22px;
     }
+    
+    /* Sur mobile, position initiale différente pour le bouton Non */
+    #noBtn {
+        left: 50%;
+        top: 70%;
+        transform: translate(-50%, -50%);
+    }
+    
+    #yesBtn {
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 @media (max-width: 480px) {
-    #introScreen {
-        padding: 15px;
-    }
-    
     .intro-gif {
         width: 140px;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
     }
     
     .wave-text {
-        font-size: clamp(16px, 3.5vw, 20px);
-        margin-bottom: 20px;
-        line-height: 1.6;
-        white-space: normal;
-        word-break: break-word;
+        font-size: clamp(18px, 4vw, 22px);
+        margin-bottom: 25px;
+        line-height: 1.4;
     }
     
     #startBtn {
@@ -524,13 +524,14 @@ button:hover {
     }
     
     #yesBtn {
-        left: 35%;
-        top: 50%;
+        left: 50%;
+        top: 30%;
+        padding: 12px 24px;
     }
     
     #noBtn {
-        left: 65%;
-        top: 50%;
+        left: 50%;
+        top: 70%;
         padding: 10px 14px;
         font-size: 13px;
         max-width: 75vw;
@@ -550,14 +551,6 @@ button:hover {
     #noBtn {
         font-size: 12px;
         padding: 8px 12px;
-    }
-    
-    #yesBtn {
-        left: 30%;
-    }
-    
-    #noBtn {
-        left: 70%;
     }
 }
 </style>
@@ -620,7 +613,7 @@ const backgroundMusic = document.getElementById("backgroundMusic");
 let yesScale = 1;
 let clickCount = 0;
 
-// Texte amélioré pour le bouton "Non" (plus de messages)
+// Texte amélioré pour le bouton "Non"
 const noBtnTexts = [
     "Non 😢",
     "Tu es sûre ? 😕",
@@ -656,7 +649,7 @@ const noBtnTexts = [
 
 /* ==================== INITIALISATION ==================== */
 
-// CORRECTION 1: Créer le texte d'intro avec animation vague
+// CORRECTION 1: Créer le texte d'intro avec gestion responsive
 function createWaveText() {
     const text = "J'ai quelque chose d'important à te demander…";
     waveText.innerHTML = '';
@@ -667,7 +660,7 @@ function createWaveText() {
         // Gestion spéciale pour les espaces
         if (text[i] === ' ') {
             span.className = 'space';
-            span.innerHTML = '&nbsp;'; // Espace insécable visible
+            span.innerHTML = '&nbsp;';
         } else {
             span.textContent = text[i];
         }
@@ -676,13 +669,12 @@ function createWaveText() {
     }
 }
 
-// Démarrer la musique IMMÉDIATEMENT
+// Démarrer la musique
 function startBackgroundMusic() {
     try {
         backgroundMusic.volume = 0.3;
         backgroundMusic.loop = true;
         
-        // Essayer de jouer immédiatement
         const playPromise = backgroundMusic.play();
         
         if (playPromise !== undefined) {
@@ -690,7 +682,6 @@ function startBackgroundMusic() {
                 console.log("🎵 Musique démarrée automatiquement");
             }).catch(error => {
                 console.log("Musique bloquée, on attend un clic");
-                // Si bloqué, on attend le clic sur le bouton d'intro
                 startBtn.addEventListener('click', () => {
                     backgroundMusic.play().catch(e => {
                         console.log("Musique toujours bloquée");
@@ -703,13 +694,11 @@ function startBackgroundMusic() {
     }
 }
 
-// Faire vibrer le téléphone (si supporté)
+// Faire vibrer le téléphone
 function vibratePhone() {
     if ("vibrate" in navigator) {
-        // Vibration courte
         navigator.vibrate(100);
         
-        // Vibration plus longue quand on clique plusieurs fois sur "Non"
         if (clickCount > 5) {
             navigator.vibrate([100, 50, 100]);
         }
@@ -719,88 +708,76 @@ function vibratePhone() {
     }
 }
 
+/* ==================== CORRECTION 2: SYSTÈME BULLDOZER AMÉLIORÉ ==================== */
+
+function bulldozerSystem() {
+    // Récupérer les dimensions des boutons
+    const yesRect = yesBtn.getBoundingClientRect();
+    const noRect = noBtn.getBoundingClientRect();
+    
+    // Détection de collision
+    const collision = yesRect.right > noRect.left && 
+                      yesRect.left < noRect.right && 
+                      yesRect.bottom > noRect.top && 
+                      yesRect.top < noRect.bottom;
+    
+    if (collision) {
+        // Calcul de l'overlap
+        const overlapX = yesRect.right - noRect.left;
+        
+        // Nouvelle position souhaitée
+        const desiredX = noRect.left + overlapX + 20; // 20px de marge
+        
+        // Vérifier les limites de l'écran
+        const screenWidth = window.innerWidth;
+        const noBtnWidth = noRect.width;
+        const maxAllowedX = screenWidth - noBtnWidth - 10; // 10px de marge du bord
+        
+        let finalX;
+        
+        // Gestion du mur
+        if (desiredX > maxAllowedX) {
+            finalX = maxAllowedX;
+        } else {
+            finalX = desiredX;
+        }
+        
+        // Convertir en pourcentage relatif au conteneur
+        const containerRect = document.getElementById("container").getBoundingClientRect();
+        const newLeftPercent = ((finalX - containerRect.left) / containerRect.width) * 100;
+        
+        // Appliquer la nouvelle position via CSS uniquement
+        noBtn.style.left = `${newLeftPercent}%`;
+        
+        // Effet visuel quand le bouton atteint le bord
+        if (finalX >= maxAllowedX - 5) {
+            noBtn.style.boxShadow = "0 0 0 3px #ff4d6d";
+            setTimeout(() => {
+                noBtn.style.boxShadow = "0 6px 20px var(--shadow)";
+            }, 300);
+        }
+    }
+}
+
 /* ==================== ÉCRAN D'INTRO ==================== */
 
 startBtn.addEventListener('click', () => {
-    // Animation de disparition de l'intro
     introScreen.style.opacity = '0';
     
-    // Vibration pour mobile
     vibratePhone();
     
     setTimeout(() => {
         introScreen.style.display = 'none';
         container.style.display = 'block';
         
-        // Redémarrer la musique si elle n'a pas pu démarrer avant
         backgroundMusic.play().catch(() => {});
+        
+        // Initialiser le système bulldozer
+        setTimeout(() => {
+            bulldozerSystem();
+        }, 100);
     }, 800);
 });
-
-/* ==================== CORRECTION 2: NOUVELLE LOGIQUE BULLDOZER ==================== */
-
-function bulldozerSystem() {
-    // Récupérer les dimensions actuelles des boutons
-    const yesRect = yesBtn.getBoundingClientRect();
-    const noRect = noBtn.getBoundingClientRect();
-    
-    // DÉTECTION DE COLLISION SIMPLIFIÉE
-    // Vérifier si le bouton OUI touche le bouton NON
-    const collision = (
-        yesRect.left < noRect.right &&
-        yesRect.right > noRect.left &&
-        yesRect.top < noRect.bottom &&
-        yesRect.bottom > noRect.top
-    );
-    
-    if (collision) {
-        // CALCUL DE LA DISTANCE DE DÉPLACEMENT
-        // 1. De combien le bouton OUI chevauche le bouton NON ?
-        const overlap = yesRect.right - noRect.left;
-        
-        // 2. Position actuelle du bouton NON en pourcentage
-        const containerRect = buttonArea.getBoundingClientRect();
-        const currentLeftPercent = ((noRect.left - containerRect.left) / containerRect.width) * 100;
-        
-        // 3. Calculer le déplacement nécessaire
-        const buttonWidthPercent = (noRect.width / containerRect.width) * 100;
-        const overlapPercent = (overlap / containerRect.width) * 100;
-        
-        // 4. Nouvelle position (décalage + marge de 5%)
-        let newLeftPercent = currentLeftPercent + overlapPercent + 5;
-        
-        // 5. LE MUR : vérifier les limites de l'écran
-        const maxLeftPercent = 100 - buttonWidthPercent - 2; // 2% de marge
-        
-        // Si la nouvelle position dépasse le mur
-        if (newLeftPercent > maxLeftPercent) {
-            // Le bouton est bloqué contre le mur
-            newLeftPercent = maxLeftPercent;
-            
-            // Animation de vibration pour le bouton bloqué
-            noBtn.style.animation = "vibrate 0.5s ease-in-out";
-            setTimeout(() => {
-                noBtn.style.animation = "";
-            }, 500);
-            
-            // Indiquer visuellement qu'il est bloqué
-            noBtn.style.boxShadow = "0 0 0 3px #ff4d6d, 0 6px 20px var(--shadow)";
-            setTimeout(() => {
-                noBtn.style.boxShadow = "0 6px 20px var(--shadow)";
-            }, 300);
-        }
-        
-        // 6. Appliquer la nouvelle position SANS TÉLÉPORTATION
-        // Transition douce pour un déplacement naturel
-        noBtn.style.transition = "left 0.3s ease-out";
-        noBtn.style.left = `${newLeftPercent}%`;
-        
-        // Réinitialiser la transition après le déplacement
-        setTimeout(() => {
-            noBtn.style.transition = "all 0.3s ease";
-        }, 300);
-    }
-}
 
 /* ==================== BOUTON "NON" ==================== */
 
@@ -810,27 +787,26 @@ noBtn.addEventListener("click", () => {
     // Vibration mobile
     vibratePhone();
     
-    // Animation de secousse
+    // CORRECTION 2: Animation de vibration qui n'affecte pas la position
     noBtn.classList.add('vibrate');
     setTimeout(() => {
         noBtn.classList.remove('vibrate');
     }, 300);
     
-    // Agrandir le bouton "Oui" progressivement
-    yesScale += 0.2;
+    // Agrandir le bouton "Oui"
+    yesScale += 0.25;
     yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
     
     // Changer le texte du bouton "Non"
     const textIndex = Math.min(clickCount - 1, noBtnTexts.length - 1);
     noBtn.textContent = noBtnTexts[textIndex];
     
-    // Si on arrive à la fin des messages, on recommence
     if (clickCount > noBtnTexts.length) {
         const randomIndex = Math.floor(Math.random() * (noBtnTexts.length - 5)) + 5;
         noBtn.textContent = noBtnTexts[randomIndex];
     }
     
-    // Ajuster la taille de police si le texte est trop long
+    // Ajuster la taille de police
     if (noBtn.textContent.length > 20) {
         noBtn.style.fontSize = 'clamp(12px, 2.8vw, 14px)';
         noBtn.style.padding = '8px 12px';
@@ -839,16 +815,10 @@ noBtn.addEventListener("click", () => {
         noBtn.style.padding = '10px 14px';
     }
     
-    // CORRECTION 2: Appeler la logique Bulldozer
+    // Appliquer l'effet bulldozer
     setTimeout(() => {
         bulldozerSystem();
     }, 10);
-    
-    // Petite animation de recul
-    noBtn.style.transform = `translate(-50%, -50%) scale(0.95)`;
-    setTimeout(() => {
-        noBtn.style.transform = `translate(-50%, -50%) scale(1)`;
-    }, 200);
 });
 
 /* ==================== BOUTON "OUI" ==================== */
@@ -1036,7 +1006,7 @@ window.addEventListener("load", () => {
     // CORRECTION 1: Créer le texte d'intro
     createWaveText();
     
-    // Démarrer la musique IMMÉDIATEMENT
+    // Démarrer la musique
     startBackgroundMusic();
 });
 
@@ -1070,6 +1040,7 @@ window.addEventListener('beforeunload', () => {
 window.addEventListener('resize', () => {
     window.scrollTo(0, 0);
     document.body.style.overflow = 'hidden';
+    bulldozerSystem();
 });
 </script>
 
