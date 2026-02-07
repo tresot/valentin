@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Valentine 💖</title>
+
+<style>
+:root {
+    --primary-pink: #ff4d6d;
+    --secondary-pink: #ff85a1;
+    --dark-gray: #444;
+    --white: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: var(--white);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Effet de fond léger */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 182, 193, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 192, 203, 0.05) 0%, transparent 50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* 🎯 Zone centrale */
+.container {
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    z-index: 10;
+    position: relative;
+}
+
+/* GIF */
+.love-gif {
+    width: 220px;
+    max-width: 60vw;
+    margin-bottom: 25px;
+    animation: gentleFloat 4s ease-in-out infinite;
+    border-radius: 10px;
+    background-color: transparent;
+    transition: opacity 0.5s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Nouveau GIF après "Oui" */
+#newGif {
+    display: none;
+    width: 250px;
+    max-width: 70vw;
+    margin-bottom: 25px;
+    animation: gentleFloat 4s ease-in-out infinite;
+    border-radius: 10px;
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Question */
+#question {
+    font-size: clamp(22px, 5vw, 36px);
+    margin-bottom: 35px;
+    position: relative;
+    padding: 15px 20px;
+    border-radius: 15px;
+    background: linear-gradient(45deg, rgba(255, 77, 109, 0.1), rgba(255, 133, 161, 0.1));
+    display: inline-block;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+    min-width: 80%;
+    word-wrap: break-word;
+}
+
+#question:hover {
+    transform: scale(1.02);
+}
+
+/* Zone des boutons */
+.buttons {
+    position: relative;
+    height: 180px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Boutons */
+button {
+    position: absolute;
+    padding: 16px 28px;
+    font-size: clamp(16px, 4vw, 20px);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 20px var(--shadow);
+    user-select: none;
+    min-width: 120px;
+    transform-origin: center center;
+}
+
+/* BOUTON OUI - AVEC z-index ÉLEVÉ POUR LE COUVRIR */
+#yesBtn {
+    background: linear-gradient(45deg, var(--primary-pink), var(--secondary-pink));
+    color: var(--white);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    animation: pulse 2s infinite;
+    z-index: 20; /* PLUS ÉLEVÉ QUE LE BOUTON NON */
+}
+
+/* BOUTON NON - z-index INFÉRIEUR */
+#noBtn {
+    background: linear-gradient(45deg, var(--dark-gray), #666);
+    color: var(--white);
+    left: 50%;
+    top: 50%;
+    transform: translate(30%, -50%);
+    z-index: 10; /* INFÉRIEUR AU BOUTON OUI */
+}
+
+/* Animation du bouton Oui */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 77, 109, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); }
+}
+
+button:hover {
+    transform: translate(-50%, -50%) scale(1.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+#yesBtn:hover {
+    background: linear-gradient(45deg, #ff3355, #ff6b8b);
+}
+
+#noBtn:hover {
+    background: linear-gradient(45deg, #333, #555);
+}
+
+/* Message final */
+#finalMessage {
+    display: none;
+    font-size: clamp(26px, 6vw, 42px);
+    margin-top: 30px;
+    animation: pop 1s ease forwards, rainbow 3s infinite linear;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Nouveau texte après "Oui" */
+#secondMessage {
+    display: none;
+    font-size: clamp(20px, 5vw, 32px);
+    margin-top: 15px;
+    animation: pop 1.5s ease forwards;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 15px;
+    background: linear-gradient(45deg, rgba(255, 77, 109, 0.15), rgba(255, 133, 161, 0.15));
+    color: #ff4d6d;
+}
+
+@keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes rainbow {
+    0% { color: #ff4d6d; }
+    20% { color: #ff9a00; }
+    40% { color: #f6ff00; }
+    60% { color: #4dff4d; }
+    80% { color: #4d4dff; }
+    100% { color: #ff4d6d; }
+}
+
+/* Emojis flottants */
+.floating {
+    position: fixed;
+    font-size: 28px;
+    animation: floatUp linear forwards;
+    pointer-events: none;
+    z-index: 9999;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(255, 77, 109, 0.4));
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(10vh) rotate(0deg) scale(0.8);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Particules feu d'artifice */
+.particle {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: explode 1.2s ease-out forwards;
+    z-index: 9998;
+    box-shadow: 0 0 10px currentColor;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y));
+        opacity: 0;
+        width: 4px;
+        height: 4px;
+    }
+}
+
+/* Adaptation responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .love-gif, #newGif {
+        width: 180px;
+        margin-bottom: 20px;
+    }
+    
+    #question {
+        font-size: clamp(20px, 5vw, 28px);
+        padding: 12px 16px;
+        margin-bottom: 30px;
+    }
+    
+    .buttons {
+        height: 160px;
+    }
+    
+    button {
+        padding: 14px 22px;
+        min-width: 100px;
+    }
+    
+    .floating {
+        font-size: 24px;
+    }
+    
+    /* Sur mobile, bouton Non en bas */
+    #noBtn {
+        transform: translate(-50%, 50%);
+        top: auto;
+        bottom: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .love-gif, #newGif {
+        width: 150px;
+    }
+    
+    #question {
+        font-size: clamp(18px, 5vw, 24px);
+        padding: 10px 14px;
+    }
+    
+    .buttons {
+        flex-direction: column;
+        height: 140px;
+    }
+    
+    button {
+        padding: 12px 18px;
+        font-size: 16px;
+        min-width: 90px;
+    }
+    
+    #yesBtn {
+        left: 50%;
+        top: 30%;
+    }
+    
+    #noBtn {
+        left: 50%;
+        top: 70%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .floating {
+        font-size: 20px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="container">
+    <img src="14.gif" class="love-gif" id="firstGif" alt="Cœur animé">
+    <img src="13.gif" id="newGif" alt="Célébration">
+    <div id="question">Veux-tu être ma Valentine ? 💘</div>
+
+    <div class="buttons" id="buttonArea">
+        <button id="yesBtn">Oui 💖</button>
+        <button id="noBtn">Non 😢</button>
+    </div>
+
+    <div id="finalMessage">
+        OUIIIII 😍💞💓💗💖💘💕💍✨
+    </div>
+    <div id="secondMessage">
+        Je savais que tu allais tout de suite accepter 💖
+    </div>
+</div>
+
+<!-- Audio de fond en boucle -->
+<audio id="backgroundMusic" loop preload="auto">
+    <source src="celebration.mp3" type="audio/mp3">
+    <source src="celebration.ogg" type="audio/ogg">
+    Votre navigateur ne supporte pas l'audio.
+</audio>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const question = document.getElementById("question");
+const finalMessage = document.getElementById("finalMessage");
+const secondMessage = document.getElementById("secondMessage");
+const buttonArea = document.getElementById("buttonArea");
+const firstGif = document.getElementById("firstGif");
+const newGif = document.getElementById("newGif");
+const backgroundMusic = document.getElementById("backgroundMusic");
+
+let yesScale = 1;
+let clickCount = 0;
+const noBtnTexts = [
+    "Non 😢",
+    "Tu es sûre ? 😕",
+    "Vraiment ? 😟",
+    "Je t'aime tu sais 😘",
+    "S'il te plaît 🙏",
+    "Je serais si triste 😭",
+    "Donne-moi une chance 💔",
+    "Je t'adore 😍",
+    "Tu es mon tout ❤️",
+    "Dernière chance ! 😅"
+];
+
+/* SYSTÈME "BULLDOZER" - LOGIQUE DE PPOUSSEE */
+function bulldozerSystem() {
+    // Récupérer les dimensions VISUELLES des boutons
+    const yesRect = yesBtn.getBoundingClientRect();
+    const noRect = noBtn.getBoundingClientRect();
+    
+    // DÉTECTION DE COLLISION : bord droit de OUI vs bord gauche de NON
+    const collision = yesRect.right > noRect.left && 
+                      yesRect.left < noRect.right && 
+                      yesRect.bottom > noRect.top && 
+                      yesRect.top < noRect.bottom;
+    
+    if (collision) {
+        // CALCUL DE LA POURSUITE :
+        // 1. De combien le bouton OUI dépasse le bouton NON?
+        const overlapX = yesRect.right - noRect.left;
+        
+        // 2. Nouvelle position X souhaitée pour le bouton NON
+        const desiredX = noRect.left + overlapX + 100; // 100px de marge
+        
+        // 3. Vérifier les limites de l'écran (LE MUR)
+        const screenWidth = window.innerWidth;
+        const noBtnWidth = noRect.width;
+        const maxAllowedX = screenWidth - noBtnWidth - 10; // 10px de marge du bord
+        
+        let finalX;
+        
+        // LE MUR : si la position souhaitée dépasse l'écran
+        if (desiredX > maxAllowedX) {
+            finalX = maxAllowedX;
+        } else {
+            finalX = desiredX;
+        }
+        
+        // Convertir la position pixel en pourcentage pour le CSS
+        const containerRect = document.getElementById("container").getBoundingClientRect();
+        const newLeftPercent = ((finalX - containerRect.left) / containerRect.width) * 100;
+        
+        // Appliquer la nouvelle position
+        noBtn.style.left = `${newLeftPercent}%`;
+        
+        // Vérifier si le bouton est maintenant au bord
+        if (finalX >= maxAllowedX - 5) {
+            // Animation spéciale pour le bouton bloqué
+            noBtn.style.animation = "none";
+            setTimeout(() => {
+                noBtn.style.transform = "translate(-50%, -50%) scale(1.05)";
+                noBtn.style.boxShadow = "0 0 0 3px #ff4d6d";
+                setTimeout(() => {
+                    noBtn.style.transform = "translate(-50%, -50%) scale(1)";
+                    noBtn.style.boxShadow = "0 6px 20px var(--shadow)";
+                }, 300);
+            }, 100);
+        }
+    }
+}
+
+/* EFFET QUAND ON CLIQUE SUR "NON" */
+noBtn.addEventListener("click", () => {
+    clickCount++;
+    
+    // 1. AGRANDISSEMENT VISUEL DU BOUTON OUI
+    yesScale += 0.25;
+    yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
+    
+    // 2. CHANGER LE TEXTE DU BOUTON "NON"
+    const textIndex = Math.min(clickCount - 1, noBtnTexts.length - 1);
+    noBtn.textContent = noBtnTexts[textIndex];
+    
+    // 3. SYSTÈME BULLDOZER - PPOUSSEE AUTOMATIQUE
+    setTimeout(() => {
+        bulldozerSystem();
+    }, 10);
+    
+    // 4. ANIMATION DE SECOUSSE POUR LE BOUTON "NON"
+    noBtn.style.transform = `translate(-50%, -50%) scale(0.9)`;
+    setTimeout(() => {
+        noBtn.style.transform = `translate(-50%, -50%) scale(1)`;
+    }, 200);
+});
+
+/* 💖 QUAND ELLE DIT OUI */
+yesBtn.addEventListener("click", () => {
+    question.style.display = "none";
+    buttonArea.style.display = "none";
+    
+    // REMPLACER LE GIF
+    firstGif.style.display = "none";
+    newGif.style.display = "block";
+    
+    // AFFICHER LE PREMIER MESSAGE
+    finalMessage.style.display = "block";
+    
+    // Message supplémentaire après 1.5 secondes
+    setTimeout(() => {
+        secondMessage.style.display = "block";
+    }, 1500);
+    
+    // JOUER LE SON SYNTHÉTIQUE DE CÉLÉBRATION (UNIQUEMENT UNE FOIS)
+    playSyntheticCelebrationSound();
+    
+    // DÉMARRER LES EFFETS
+    startLoveRain();
+    startFireworks();
+    
+    // CORRECTION DU BUG DE SCROLL
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.body.style.overflow = 'hidden';
+    }, 100);
+});
+
+/* 🔊 SON SYNTHÉTIQUE DE CÉLÉBRATION - UNIQUEMENT AU CLIC SUR "OUI" */
+function playSyntheticCelebrationSound() {
+    try {
+        // 1. CRÉATION DU STUDIO AUDIO (AudioContext)
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // 2. CRÉATION DE L'INSTRUMENT (Oscillateur)
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        // 3. CONNEXION DES ÉLÉMENTS AUDIO
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        // 4. CONFIGURATION DE L'INSTRUMENT
+        oscillator.type = 'sine'; // Onde sinusoïdale pure
+        
+        // 5. LA MÉLODIE - UN ARPÈGE JOYEUX
+        // DO (523.25 Hz) -> MI (659.25 Hz) -> SOL (783.99 Hz)
+        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // DO à t=0s
+        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // MI à t=0.1s
+        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // SOL à t=0.2s
+        
+        // 6. CONTRÔLE DU VOLUME - ATTÉNUATION PROGRESSIVE
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime); // Volume initial à 30%
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5); // Fade-out en 0.5s
+        
+        // 7. JOUER LE SON
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5); // Durée totale: 0.5 secondes
+        
+        console.log("🎵 Son synthétique de célébration joué!");
+        
+    } catch (e) {
+        console.log("Audio synthétique non supporté ou bloqué");
+    }
+}
+
+/* 💖 PLUIE D'EMOJIS */
+function startLoveRain() {
+    const emojis = [
+        "💖", "💘", "💝", "💕", "💗", "💓", "💞","❣️", 
+        "😍", "🥰", "😘", "✨", "🌟", "🎉", "🎊", "🎇", "🎆",
+        "💌", "💒", "💑", "👩‍❤️‍👨", "👨‍❤️‍👨", "👩‍❤️‍👩", "💏", "🧡",
+        "💛", "💚", "💙", "💜", "🤎", "🖤", "🤍", "💋", "🌸",
+        "🌹", "🌺", "🌷", "🦋", "🐱", "🐶", "🐻",
+        "❤️‍🔥", "🧸", "🎀", "🎁", "🥂", "🍾"
+    ];
+    
+    const emojiContainer = document.createElement('div');
+    emojiContainer.id = 'emoji-container';
+    emojiContainer.style.position = 'fixed';
+    emojiContainer.style.top = '0';
+    emojiContainer.style.left = '0';
+    emojiContainer.style.width = '100%';
+    emojiContainer.style.height = '100%';
+    emojiContainer.style.pointerEvents = 'none';
+    emojiContainer.style.zIndex = '9999';
+    document.body.appendChild(emojiContainer);
+    
+    let emojiCount = 0;
+    const maxEmojis = 40;
+    
+    const interval = setInterval(() => {
+        for (let i = 0; i < 1; i++) {
+            if (emojiCount >= maxEmojis) {
+                clearInterval(interval);
+                return;
+            }
+            
+            const el = document.createElement("div");
+            el.className = "floating";
+            el.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            el.style.left = Math.random() * 100 + "vw";
+            el.style.top = (50 + Math.random() * 40) + "vh";
+            el.style.position = "fixed";
+            
+            const size = 20 + Math.random() * 25;
+            el.style.fontSize = size + "px";
+            
+            const duration = 3 + Math.random() * 4;
+            el.style.animationDuration = duration + "s";
+            el.style.opacity = "0.9";
+            
+            emojiContainer.appendChild(el);
+            emojiCount++;
+            
+            setTimeout(() => {
+                if (el.parentNode) {
+                    el.remove();
+                    emojiCount--;
+                }
+            }, duration * 1000);
+        }
+    }, 400);
+    
+    setTimeout(() => clearInterval(interval), 20000);
+}
+
+/* 🎆 FEUX D'ARTIFICE */
+function startFireworks() {
+    const colors = [
+        "#ff4d6d", "#ff9a00", "#f6ff00", "#4dff4d", 
+        "#4d4dff", "#9d4dff", "#ff4d9d", "#4dffff"
+    ];
+    
+    let fireworkCount = 0;
+    const maxFireworks = 12;
+    
+    const interval = setInterval(() => {
+        if (fireworkCount >= maxFireworks) {
+            clearInterval(interval);
+            return;
+        }
+        
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * (window.innerHeight / 2);
+        
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement("div");
+            p.className = "particle";
+            p.style.left = x + "px";
+            p.style.top = y + "px";
+            p.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            const angle = Math.random() * 2 * Math.PI;
+            const dist = 70 + Math.random() * 50;
+            const duration = 0.8 + Math.random() * 0.5;
+            
+            p.style.setProperty('--x', Math.cos(angle) * dist + "px");
+            p.style.setProperty('--y', Math.sin(angle) * dist + "px");
+            p.style.animationDuration = duration + "s";
+            p.style.width = (5 + Math.random() * 5) + "px";
+            p.style.height = p.style.width;
+            
+            document.body.appendChild(p);
+            setTimeout(() => {
+                if (p.parentNode) {
+                    p.remove();
+                }
+            }, duration * 1000);
+        }
+        
+        fireworkCount++;
+    }, 1000);
+    
+    setTimeout(() => clearInterval(interval), 15000);
+}
+
+/* 🔊 MUSIQUE DE FOND EN BOUCLE DÈS LE DÉMARRAGE */
+function startBackgroundMusic() {
+    try {
+        backgroundMusic.volume = 0.3;
+        backgroundMusic.loop = true;
+        
+        const playPromise = backgroundMusic.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log("🎵 Musique de fond démarrée en boucle");
+            }).catch(error => {
+                console.log("Musique de fond bloquée, tentative après interaction");
+                document.addEventListener('click', () => {
+                    backgroundMusic.play().catch(e => {
+                        console.log("Musique toujours bloquée");
+                    });
+                }, { once: true });
+            });
+        }
+    } catch (e) {
+        console.log("Erreur musique de fond");
+    }
+}
+
+/* INITIALISATION */
+window.addEventListener("load", () => {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
+    
+    // Démarrer la musique de fond EN BOUCLE dès le chargement
+    startBackgroundMusic();
+    
+    // Position initiale des boutons
+    setTimeout(() => {
+        bulldozerSystem();
+    }, 100);
+});
+
+/* GESTION DE LA VISIBILITÉ DE LA PAGE POUR LA MUSIQUE */
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        backgroundMusic.pause();
+    } else {
+        backgroundMusic.play().catch(e => {
+            console.log("Impossible de reprendre la musique");
+        });
+    }
+});
+
+/* EMPÊCHER TOUT SCROLL */
+document.addEventListener('scroll', (e) => {
+    e.preventDefault();
+    window.scrollTo(0, 0);
+}, { passive: false });
+
+/* EMPÊCHER LE ZOOM SUR MOBILE */
+document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+/* GESTION DU DÉCHARGEMENT DE LA PAGE */
+window.addEventListener('beforeunload', () => {
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
+});
+</script>
+
+</body>
+</html>
