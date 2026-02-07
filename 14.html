@@ -76,7 +76,7 @@ body::before {
     background-color: transparent;
 }
 
-/* Animation texte vague pour l'intro */
+/* CORRECTION 1 & 2: Animation vague pour TOUTES les lettres avec espaces visibles */
 .wave-text {
     display: inline-block;
     font-size: clamp(24px, 5vw, 32px);
@@ -84,6 +84,7 @@ body::before {
     text-align: center;
     margin-bottom: 40px;
     padding: 0 20px;
+    white-space: pre;
 }
 
 .wave-text span {
@@ -92,12 +93,19 @@ body::before {
     color: #ff4d6d;
 }
 
+/* Espaces visibles */
+.wave-text .space {
+    display: inline-block;
+    width: 0.3em;
+    min-width: 5px;
+}
+
 @keyframes waveBounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-12px); }
 }
 
-/* Décalage progressif pour chaque lettre */
+/* Décalage progressif pour chaque lettre - TOUS LES CARACTÈRES */
 .wave-text span:nth-child(1)  { animation-delay: 0s; }
 .wave-text span:nth-child(2)  { animation-delay: 0.05s; }
 .wave-text span:nth-child(3)  { animation-delay: 0.1s; }
@@ -132,6 +140,12 @@ body::before {
 .wave-text span:nth-child(32) { animation-delay: 1.55s; }
 .wave-text span:nth-child(33) { animation-delay: 1.6s; }
 .wave-text span:nth-child(34) { animation-delay: 1.65s; }
+.wave-text span:nth-child(35) { animation-delay: 1.7s; }
+.wave-text span:nth-child(36) { animation-delay: 1.75s; }
+.wave-text span:nth-child(37) { animation-delay: 1.8s; }
+.wave-text span:nth-child(38) { animation-delay: 1.85s; }
+.wave-text span:nth-child(39) { animation-delay: 1.9s; }
+.wave-text span:nth-child(40) { animation-delay: 1.95s; }
 
 /* Bouton d'intro */
 #startBtn {
@@ -624,14 +638,22 @@ const noBtnTexts = [
 
 /* ==================== INITIALISATION ==================== */
 
-// Créer le texte d'intro avec animation vague
+// CORRECTION 1 & 2: Créer le texte d'intro avec animation vague pour TOUTES les lettres
 function createWaveText() {
     const text = "J'ai quelque chose d'important à te demander…";
     waveText.innerHTML = '';
     
     for (let i = 0; i < text.length; i++) {
         const span = document.createElement('span');
-        span.textContent = text[i];
+        
+        // Gestion spéciale pour les espaces
+        if (text[i] === ' ') {
+            span.className = 'space';
+            span.innerHTML = '&nbsp;'; // Espace insécable visible
+        } else {
+            span.textContent = text[i];
+        }
+        
         waveText.appendChild(span);
     }
 }
@@ -702,39 +724,51 @@ startBtn.addEventListener('click', () => {
     }, 800);
 });
 
-/* ==================== SYSTÈME BULLDOZER ==================== */
+/* ==================== CORRECTION 3: ANCIEN SYSTÈME BULLDOZER ==================== */
 
 function bulldozerSystem() {
+    // Récupérer les dimensions VISUELLES des boutons
     const yesRect = yesBtn.getBoundingClientRect();
     const noRect = noBtn.getBoundingClientRect();
     
+    // DÉTECTION DE COLLISION : bord droit de OUI vs bord gauche de NON
     const collision = yesRect.right > noRect.left && 
                       yesRect.left < noRect.right && 
                       yesRect.bottom > noRect.top && 
                       yesRect.top < noRect.bottom;
     
     if (collision) {
+        // CALCUL DE LA POURSUITE :
+        // 1. De combien le bouton OUI dépasse le bouton NON?
         const overlapX = yesRect.right - noRect.left;
-        const desiredX = noRect.left + overlapX + 100;
         
+        // 2. Nouvelle position X souhaitée pour le bouton NON
+        const desiredX = noRect.left + overlapX + 100; // 100px de marge
+        
+        // 3. Vérifier les limites de l'écran (LE MUR)
         const screenWidth = window.innerWidth;
         const noBtnWidth = noRect.width;
-        const maxAllowedX = screenWidth - noBtnWidth - 10;
+        const maxAllowedX = screenWidth - noBtnWidth - 10; // 10px de marge du bord
         
         let finalX;
         
+        // LE MUR : si la position souhaitée dépasse l'écran
         if (desiredX > maxAllowedX) {
             finalX = maxAllowedX;
         } else {
             finalX = desiredX;
         }
         
+        // Convertir la position pixel en pourcentage pour le CSS
         const containerRect = document.getElementById("container").getBoundingClientRect();
         const newLeftPercent = ((finalX - containerRect.left) / containerRect.width) * 100;
         
+        // Appliquer la nouvelle position
         noBtn.style.left = `${newLeftPercent}%`;
         
+        // Vérifier si le bouton est maintenant au bord
         if (finalX >= maxAllowedX - 5) {
+            // Animation spéciale pour le bouton bloqué
             noBtn.style.animation = "none";
             setTimeout(() => {
                 noBtn.style.transform = "translate(-50%, -50%) scale(1.05)";
@@ -766,7 +800,7 @@ noBtn.addEventListener("click", () => {
     yesScale += 0.25;
     yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
     
-    // Changer le texte du bouton "Non" (plus de messages maintenant)
+    // Changer le texte du bouton "Non"
     const textIndex = Math.min(clickCount - 1, noBtnTexts.length - 1);
     noBtn.textContent = noBtnTexts[textIndex];
     
@@ -785,7 +819,7 @@ noBtn.addEventListener("click", () => {
         noBtn.style.padding = '10px 14px';
     }
     
-    // Système bulldozer
+    // CORRECTION 3: Utilisation de l'ancien système bulldozer
     setTimeout(() => {
         bulldozerSystem();
     }, 10);
@@ -979,7 +1013,7 @@ window.addEventListener("load", () => {
     window.scrollTo(0, 0);
     document.body.style.overflow = 'hidden';
     
-    // Créer le texte d'intro avec animation vague
+    // CORRECTION 1 & 2: Créer le texte d'intro avec animation vague pour TOUTES les lettres
     createWaveText();
     
     // Démarrer la musique IMMÉDIATEMENT
@@ -1022,4 +1056,3 @@ window.addEventListener('resize', () => {
 
 </body>
 </html>
-
