@@ -45,41 +45,150 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 50%, rgba(255, 182, 193, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 192, 203, 0.08) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 50%, rgba(255, 182, 193, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 192, 203, 0.05) 0%, transparent 50%);
     z-index: -1;
     pointer-events: none;
 }
 
-/* 🎯 Conteneurs principaux */
-#introScreen, .container {
+/* Écran d'intro */
+#introScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 0.8s ease;
+}
+
+.intro-gif {
+    width: 200px;
+    max-width: 50vw;
+    margin-bottom: 40px;
+    animation: gentleFloat 4s ease-in-out infinite;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+/* CORRECTION 1 & 2: Animation vague pour TOUTES les lettres avec espaces visibles */
+.wave-text {
+    display: inline-block;
+    font-size: clamp(24px, 5vw, 32px);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    white-space: pre;
+}
+
+.wave-text span {
+    display: inline-block;
+    animation: waveBounce 1.8s infinite ease-in-out;
+    color: #ff4d6d;
+}
+
+/* Espaces visibles */
+.wave-text .space {
+    display: inline-block;
+    width: 0.3em;
+    min-width: 5px;
+}
+
+@keyframes waveBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+/* Décalage progressif pour chaque lettre - TOUS LES CARACTÈRES */
+.wave-text span:nth-child(1)  { animation-delay: 0s; }
+.wave-text span:nth-child(2)  { animation-delay: 0.05s; }
+.wave-text span:nth-child(3)  { animation-delay: 0.1s; }
+.wave-text span:nth-child(4)  { animation-delay: 0.15s; }
+.wave-text span:nth-child(5)  { animation-delay: 0.2s; }
+.wave-text span:nth-child(6)  { animation-delay: 0.25s; }
+.wave-text span:nth-child(7)  { animation-delay: 0.3s; }
+.wave-text span:nth-child(8)  { animation-delay: 0.35s; }
+.wave-text span:nth-child(9)  { animation-delay: 0.4s; }
+.wave-text span:nth-child(10) { animation-delay: 0.45s; }
+.wave-text span:nth-child(11) { animation-delay: 0.5s; }
+.wave-text span:nth-child(12) { animation-delay: 0.55s; }
+.wave-text span:nth-child(13) { animation-delay: 0.6s; }
+.wave-text span:nth-child(14) { animation-delay: 0.65s; }
+.wave-text span:nth-child(15) { animation-delay: 0.7s; }
+.wave-text span:nth-child(16) { animation-delay: 0.75s; }
+.wave-text span:nth-child(17) { animation-delay: 0.8s; }
+.wave-text span:nth-child(18) { animation-delay: 0.85s; }
+.wave-text span:nth-child(19) { animation-delay: 0.9s; }
+.wave-text span:nth-child(20) { animation-delay: 0.95s; }
+.wave-text span:nth-child(21) { animation-delay: 1s; }
+.wave-text span:nth-child(22) { animation-delay: 1.05s; }
+.wave-text span:nth-child(23) { animation-delay: 1.1s; }
+.wave-text span:nth-child(24) { animation-delay: 1.15s; }
+.wave-text span:nth-child(25) { animation-delay: 1.2s; }
+.wave-text span:nth-child(26) { animation-delay: 1.25s; }
+.wave-text span:nth-child(27) { animation-delay: 1.3s; }
+.wave-text span:nth-child(28) { animation-delay: 1.35s; }
+.wave-text span:nth-child(29) { animation-delay: 1.4s; }
+.wave-text span:nth-child(30) { animation-delay: 1.45s; }
+.wave-text span:nth-child(31) { animation-delay: 1.5s; }
+.wave-text span:nth-child(32) { animation-delay: 1.55s; }
+.wave-text span:nth-child(33) { animation-delay: 1.6s; }
+.wave-text span:nth-child(34) { animation-delay: 1.65s; }
+.wave-text span:nth-child(35) { animation-delay: 1.7s; }
+.wave-text span:nth-child(36) { animation-delay: 1.75s; }
+.wave-text span:nth-child(37) { animation-delay: 1.8s; }
+.wave-text span:nth-child(38) { animation-delay: 1.85s; }
+.wave-text span:nth-child(39) { animation-delay: 1.9s; }
+.wave-text span:nth-child(40) { animation-delay: 1.95s; }
+
+/* Bouton d'intro */
+#startBtn {
+    background: linear-gradient(45deg, var(--primary-pink), var(--secondary-pink));
+    color: var(--white);
+    border: none;
+    padding: 16px 32px;
+    font-size: clamp(18px, 4vw, 22px);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 20px rgba(255, 77, 109, 0.3);
+    margin-top: 20px;
+    animation: pulse 2s infinite;
+}
+
+#startBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 77, 109, 0.4);
+}
+
+/* 🎯 Zone principale (cachée au début) */
+.container {
     text-align: center;
     width: 90%;
     max-width: 500px;
     padding: 20px;
     z-index: 10;
     position: relative;
-}
-
-#introScreen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.container {
-    display: none;
+    display: none; /* Caché au début */
 }
 
 /* GIF */
-.intro-gif, .love-gif {
+.love-gif {
     width: 220px;
     max-width: 60vw;
     margin-bottom: 25px;
     animation: gentleFloat 4s ease-in-out infinite;
     border-radius: 10px;
     background-color: transparent;
+    transition: opacity 0.5s ease;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -103,102 +212,6 @@ body::before {
     50% { transform: translateY(-10px); }
 }
 
-/* Animation vague pour le texte d'intro */
-.wave-text {
-    display: inline-block;
-    font-size: clamp(20px, 5vw, 28px);
-    font-weight: 600;
-    color: #ff4d6d;
-    margin-bottom: 40px;
-    padding: 15px 20px;
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 5px 20px rgba(255, 77, 109, 0.15);
-    line-height: 1.5;
-    white-space: nowrap;
-}
-
-.wave-text span {
-    display: inline-block;
-    animation: waveBounce 1.2s infinite ease-in-out;
-    min-width: 8px; /* Garantit que les espaces restent visibles */
-}
-
-/* Animation pour chaque lettre */
-@keyframes waveBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-}
-
-/* Décalages d'animation pour chaque caractère */
-.wave-text span:nth-child(1) { animation-delay: 0.0s; }  /* J */
-.wave-text span:nth-child(2) { animation-delay: 0.1s; }  /* ' */
-.wave-text span:nth-child(3) { animation-delay: 0.2s; }  /* a */
-.wave-text span:nth-child(4) { animation-delay: 0.3s; }  /* i */
-.wave-text span:nth-child(5) { animation-delay: 0.4s; }  /*   */
-.wave-text span:nth-child(6) { animation-delay: 0.5s; }  /* q */
-.wave-text span:nth-child(7) { animation-delay: 0.6s; }  /* u */
-.wave-text span:nth-child(8) { animation-delay: 0.7s; }  /* e */
-.wave-text span:nth-child(9) { animation-delay: 0.8s; }  /* l */
-.wave-text span:nth-child(10) { animation-delay: 0.9s; } /* q */
-.wave-text span:nth-child(11) { animation-delay: 1.0s; } /* u */
-.wave-text span:nth-child(12) { animation-delay: 1.1s; } /* e */
-.wave-text span:nth-child(13) { animation-delay: 1.2s; } /*   */
-.wave-text span:nth-child(14) { animation-delay: 1.3s; } /* c */
-.wave-text span:nth-child(15) { animation-delay: 1.4s; } /* h */
-.wave-text span:nth-child(16) { animation-delay: 1.5s; } /* o */
-.wave-text span:nth-child(17) { animation-delay: 1.6s; } /* s */
-.wave-text span:nth-child(18) { animation-delay: 1.7s; } /* e */
-.wave-text span:nth-child(19) { animation-delay: 1.8s; } /*   */
-.wave-text span:nth-child(20) { animation-delay: 1.9s; } /* d */
-.wave-text span:nth-child(21) { animation-delay: 2.0s; } /* ' */
-.wave-text span:nth-child(22) { animation-delay: 2.1s; } /* i */
-.wave-text span:nth-child(23) { animation-delay: 2.2s; } /* m */
-.wave-text span:nth-child(24) { animation-delay: 2.3s; } /* p */
-.wave-text span:nth-child(25) { animation-delay: 2.4s; } /* o */
-.wave-text span:nth-child(26) { animation-delay: 2.5s; } /* r */
-.wave-text span:nth-child(27) { animation-delay: 2.6s; } /* t */
-.wave-text span:nth-child(28) { animation-delay: 2.7s; } /* a */
-.wave-text span:nth-child(29) { animation-delay: 2.8s; } /* n */
-.wave-text span:nth-child(30) { animation-delay: 2.9s; } /* t */
-.wave-text span:nth-child(31) { animation-delay: 3.0s; } /*   */
-.wave-text span:nth-child(32) { animation-delay: 3.1s; } /* à */
-.wave-text span:nth-child(33) { animation-delay: 3.2s; } /*   */
-.wave-text span:nth-child(34) { animation-delay: 3.3s; } /* t */
-.wave-text span:nth-child(35) { animation-delay: 3.4s; } /* e */
-.wave-text span:nth-child(36) { animation-delay: 3.5s; } /*   */
-.wave-text span:nth-child(37) { animation-delay: 3.6s; } /* d */
-.wave-text span:nth-child(38) { animation-delay: 3.7s; } /* e */
-.wave-text span:nth-child(39) { animation-delay: 3.8s; } /* m */
-.wave-text span:nth-child(40) { animation-delay: 3.9s; } /* a */
-.wave-text span:nth-child(41) { animation-delay: 4.0s; } /* n */
-.wave-text span:nth-child(42) { animation-delay: 4.1s; } /* d */
-.wave-text span:nth-child(43) { animation-delay: 4.2s; } /* e */
-.wave-text span:nth-child(44) { animation-delay: 4.3s; } /* r */
-.wave-text span:nth-child(45) { animation-delay: 4.4s; } /* … */
-
-/* Bouton d'intro */
-#introBtn {
-    background: linear-gradient(45deg, var(--primary-pink), var(--secondary-pink));
-    color: var(--white);
-    padding: 16px 32px;
-    font-size: clamp(18px, 4vw, 22px);
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    box-shadow: 0 6px 20px var(--shadow);
-    min-width: 160px;
-    animation: pulse 2s infinite;
-}
-
-#introBtn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-}
-
 /* Question */
 #question {
     font-size: clamp(22px, 5vw, 36px);
@@ -211,7 +224,9 @@ body::before {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
     min-width: 80%;
+    max-width: 90%;
     word-wrap: break-word;
+    line-height: 1.4;
 }
 
 #question:hover {
@@ -232,8 +247,8 @@ body::before {
 /* Boutons */
 button {
     position: absolute;
-    padding: 16px 28px;
-    font-size: clamp(16px, 4vw, 20px);
+    padding: 14px 24px;
+    font-size: clamp(15px, 3.5vw, 18px);
     border: none;
     border-radius: 15px;
     cursor: pointer;
@@ -242,11 +257,15 @@ button {
     letter-spacing: 0.5px;
     box-shadow: 0 6px 20px var(--shadow);
     user-select: none;
-    min-width: 120px;
+    min-width: 110px;
+    max-width: 90vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     transform-origin: center center;
 }
 
-/* BOUTON OUI - AVEC z-index ÉLEVÉ POUR LE COUVRIR */
+/* BOUTON OUI */
 #yesBtn {
     background: linear-gradient(45deg, var(--primary-pink), var(--secondary-pink));
     color: var(--white);
@@ -254,20 +273,23 @@ button {
     top: 50%;
     transform: translate(-50%, -50%) scale(1);
     animation: pulse 2s infinite;
-    z-index: 20; /* PLUS ÉLEVÉ QUE LE BOUTON NON */
+    z-index: 20;
+    padding: 14px 28px;
 }
 
-/* BOUTON NON - z-index INFÉRIEUR */
+/* BOUTON NON - AMÉLIORÉ POUR MOBILE */
 #noBtn {
     background: linear-gradient(45deg, var(--dark-gray), #666);
     color: var(--white);
     left: 50%;
     top: 50%;
     transform: translate(30%, -50%);
-    z-index: 10; /* INFÉRIEUR AU BOUTON OUI */
+    z-index: 10;
+    padding: 12px 20px;
+    font-size: clamp(14px, 3.2vw, 16px);
+    max-width: 85vw;
 }
 
-/* Animation du bouton Oui */
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); }
     70% { box-shadow: 0 0 0 15px rgba(255, 77, 109, 0); }
@@ -290,28 +312,30 @@ button:hover {
 /* Message final */
 #finalMessage {
     display: none;
-    font-size: clamp(26px, 6vw, 42px);
+    font-size: clamp(24px, 5.5vw, 38px);
     margin-top: 30px;
     animation: pop 1s ease forwards, rainbow 3s infinite linear;
     font-weight: bold;
-    padding: 20px;
+    padding: 18px;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3);
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    line-height: 1.3;
 }
 
 /* Nouveau texte après "Oui" */
 #secondMessage {
     display: none;
-    font-size: clamp(20px, 5vw, 32px);
+    font-size: clamp(18px, 4.5vw, 28px);
     margin-top: 15px;
     animation: pop 1.5s ease forwards;
     font-weight: bold;
-    padding: 15px;
+    padding: 12px;
     border-radius: 15px;
     background: linear-gradient(45deg, rgba(255, 77, 109, 0.15), rgba(255, 133, 161, 0.15));
     color: #ff4d6d;
+    line-height: 1.3;
 }
 
 @keyframes pop {
@@ -332,7 +356,7 @@ button:hover {
 /* Emojis flottants */
 .floating {
     position: fixed;
-    font-size: 28px;
+    font-size: clamp(20px, 4vw, 28px);
     animation: floatUp linear forwards;
     pointer-events: none;
     z-index: 9999;
@@ -377,7 +401,7 @@ button:hover {
     }
 }
 
-/* Animation de vibration pour mobile */
+/* Vibration mobile */
 @keyframes vibrate {
     0% { transform: translateX(0); }
     20% { transform: translateX(-2px); }
@@ -393,29 +417,27 @@ button:hover {
 
 /* Adaptation responsive */
 @media (max-width: 768px) {
-    .container, #introScreen {
+    .intro-gif {
+        width: 160px;
+        margin-bottom: 30px;
+    }
+    
+    .wave-text {
+        font-size: clamp(20px, 4.5vw, 26px);
+        margin-bottom: 30px;
+    }
+    
+    .container {
         padding: 15px;
     }
     
-    .intro-gif, .love-gif, #newGif {
+    .love-gif, #newGif {
         width: 180px;
         margin-bottom: 20px;
     }
     
-    .wave-text {
-        font-size: clamp(18px, 4.5vw, 24px);
-        padding: 12px 16px;
-        margin-bottom: 30px;
-        white-space: normal;
-        line-height: 1.4;
-    }
-    
-    .wave-text span {
-        min-width: 6px;
-    }
-    
     #question {
-        font-size: clamp(20px, 5vw, 28px);
+        font-size: clamp(20px, 4.5vw, 28px);
         padding: 12px 16px;
         margin-bottom: 30px;
     }
@@ -425,17 +447,19 @@ button:hover {
     }
     
     button {
-        padding: 14px 22px;
+        padding: 12px 20px;
+        font-size: clamp(14px, 3.2vw, 16px);
         min-width: 100px;
     }
     
-    #introBtn {
-        padding: 14px 28px;
-        font-size: clamp(16px, 4vw, 20px);
+    #noBtn {
+        padding: 10px 16px;
+        font-size: clamp(13px, 3vw, 15px);
+        max-width: 80vw;
     }
     
     .floating {
-        font-size: 24px;
+        font-size: 22px;
     }
     
     /* Sur mobile, bouton Non en bas */
@@ -447,27 +471,33 @@ button:hover {
 }
 
 @media (max-width: 480px) {
-    .container, #introScreen {
-        padding: 10px;
-    }
-    
-    .intro-gif, .love-gif, #newGif {
-        width: 150px;
-    }
-    
-    .wave-text {
-        font-size: clamp(16px, 4vw, 20px);
-        padding: 10px 14px;
+    .intro-gif {
+        width: 140px;
         margin-bottom: 25px;
     }
     
-    .wave-text span {
-        min-width: 5px;
+    .wave-text {
+        font-size: clamp(18px, 4vw, 22px);
+        margin-bottom: 25px;
+    }
+    
+    #startBtn {
+        padding: 14px 24px;
+        font-size: 16px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .love-gif, #newGif {
+        width: 150px;
     }
     
     #question {
-        font-size: clamp(18px, 5vw, 24px);
+        font-size: clamp(18px, 4vw, 24px);
         padding: 10px 14px;
+        line-height: 1.3;
     }
     
     .buttons {
@@ -476,41 +506,40 @@ button:hover {
     }
     
     button {
-        padding: 12px 18px;
-        font-size: 16px;
+        padding: 10px 16px;
+        font-size: 14px;
         min-width: 90px;
-    }
-    
-    #introBtn {
-        padding: 12px 24px;
-        font-size: 16px;
-        min-width: 140px;
     }
     
     #yesBtn {
         left: 50%;
         top: 30%;
+        padding: 12px 24px;
     }
     
     #noBtn {
         left: 50%;
         top: 70%;
         transform: translate(-50%, -50%);
+        padding: 10px 14px;
+        font-size: 13px;
+        max-width: 75vw;
     }
     
     .floating {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
-/* Pour les très petits écrans */
-@media (max-width: 360px) {
-    .wave-text {
-        font-size: 15px;
+/* Pour très petits écrans */
+@media (max-width: 320px) {
+    .wave-text span {
+        animation-duration: 2s;
     }
     
-    .wave-text span {
-        min-width: 4px;
+    #noBtn {
+        font-size: 12px;
+        padding: 8px 12px;
     }
 }
 </style>
@@ -519,25 +548,16 @@ button:hover {
 
 <!-- Écran d'intro -->
 <div id="introScreen">
-    <img src="12.gif" class="intro-gif" alt="Cœur animé intro">
+    <img src="12.gif" class="intro-gif" alt="Intro romantique">
     
-    <div class="wave-text" id="animatedText">
-        <!-- Texte séparé caractère par caractère -->
-        <span>J</span><span>'</span><span>a</span><span>i</span><span> </span>
-        <span>q</span><span>u</span><span>e</span><span>l</span><span>q</span>
-        <span>u</span><span>e</span><span> </span><span>c</span><span>h</span>
-        <span>o</span><span>s</span><span>e</span><span> </span><span>d</span>
-        <span>'</span><span>i</span><span>m</span><span>p</span><span>o</span>
-        <span>r</span><span>t</span><span>a</span><span>n</span><span>t</span>
-        <span> </span><span>à</span><span> </span><span>t</span><span>e</span>
-        <span> </span><span>d</span><span>e</span><span>m</span><span>a</span>
-        <span>n</span><span>d</span><span>e</span><span>r</span><span>…</span>
+    <div class="wave-text" id="waveText">
+        <!-- Le texte sera ajouté par JavaScript -->
     </div>
     
-    <button id="introBtn">Clique ici 💌</button>
+    <button id="startBtn">Clique ici 💌</button>
 </div>
 
-<!-- Écran principal (caché au début) -->
+<!-- Contenu principal (caché au début) -->
 <div class="container" id="container">
     <img src="14.gif" class="love-gif" id="firstGif" alt="Cœur animé">
     <img src="13.gif" id="newGif" alt="Célébration">
@@ -565,9 +585,10 @@ button:hover {
 
 <script>
 // Éléments DOM
-const introScreen = document.getElementById("introScreen");
-const container = document.getElementById("container");
-const introBtn = document.getElementById("introBtn");
+const introScreen = document.getElementById('introScreen');
+const waveText = document.getElementById('waveText');
+const startBtn = document.getElementById('startBtn');
+const container = document.getElementById('container');
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const question = document.getElementById("question");
@@ -578,11 +599,10 @@ const firstGif = document.getElementById("firstGif");
 const newGif = document.getElementById("newGif");
 const backgroundMusic = document.getElementById("backgroundMusic");
 
-// Variables
 let yesScale = 1;
 let clickCount = 0;
 
-// Textes plus nombreux pour le bouton "Non"
+// Texte amélioré pour le bouton "Non" (plus de messages)
 const noBtnTexts = [
     "Non 😢",
     "Tu es sûre ? 😕",
@@ -594,94 +614,161 @@ const noBtnTexts = [
     "Je t'adore 😍",
     "Tu es mon tout ❤️",
     "Dernière chance ! 😅",
-    "Mon cœur va se briser 💔",
     "Je vais pleurer 😭",
-    "Pense à nos souvenirs 💭",
-    "Tu es ma vie 🌟",
-    "Je t'aimerai toujours 💘",
-    "Ne fais pas ça 😢",
-    "Tu es parfaite ✨",
-    "Je t'attendrai ⏳",
-    "Pourquoi ? 😭",
+    "Tu brises mon cœur 💔",
+    "S'il te plaît mon amour 💕",
+    "Je t'attendrai toujours ⏳",
+    "Tu es la femme de ma vie 👩‍❤️‍👨",
+    "Je ne peux pas vivre sans toi 😭",
+    "Dis oui, je t'en supplie 🙏",
+    "Tu es mon rêve éveillé 🌟",
+    "Je te donnerai tout 💝",
+    "Je t'aimerai pour toujours 💞",
     "Tu es mon bonheur 😊",
-    "Je te promets tout 🤞",
-    "Fais-moi confiance 🤗",
-    "Je serai le meilleur 💪",
-    "Pour nous deux 💑",
-    "Essaie encore une fois 🔄",
-    "Je crois en nous ✨",
-    "L'amour vaincra 💘",
-    "Ne part pas 😢",
-    "Je t'en supplie 🙏",
-    "C'est notre histoire 📖"
+    "Fais-moi ce plaisir 🎁",
+    "Je serai le meilleur pour toi 👑",
+    "Tu es ma destinée ✨",
+    "Dis oui, ma princesse 👸",
+    "Je t'attends depuis toujours ⌛",
+    "Tu es parfaite pour moi 💯",
+    "Je te promets le bonheur 😇",
+    "Fais de moi l'homme le plus heureux 🥰",
+    "Je t'aime plus que tout au monde 🌍"
 ];
 
-/* 🔊 MUSIQUE DE FOND - DÉMARRAGE AUTOMATIQUE */
+/* ==================== INITIALISATION ==================== */
+
+// CORRECTION 1 & 2: Créer le texte d'intro avec animation vague pour TOUTES les lettres
+function createWaveText() {
+    const text = "J'ai quelque chose d'important à te demander…";
+    waveText.innerHTML = '';
+    
+    for (let i = 0; i < text.length; i++) {
+        const span = document.createElement('span');
+        
+        // Gestion spéciale pour les espaces
+        if (text[i] === ' ') {
+            span.className = 'space';
+            span.innerHTML = '&nbsp;'; // Espace insécable visible
+        } else {
+            span.textContent = text[i];
+        }
+        
+        waveText.appendChild(span);
+    }
+}
+
+// Démarrer la musique IMMÉDIATEMENT
 function startBackgroundMusic() {
     try {
-        backgroundMusic.volume = 0.25; // Volume plus bas pour ne pas surprendre
+        backgroundMusic.volume = 0.3;
         backgroundMusic.loop = true;
         
-        // Essayer de démarrer automatiquement
+        // Essayer de jouer immédiatement
         const playPromise = backgroundMusic.play();
         
         if (playPromise !== undefined) {
             playPromise.then(() => {
-                console.log("🎵 Musique de fond démarrée automatiquement");
+                console.log("🎵 Musique démarrée automatiquement");
             }).catch(error => {
-                console.log("Musique bloquée par le navigateur, tentative après interaction");
-                
-                // Planifier une tentative après interaction utilisateur
-                const startMusicOnInteraction = () => {
+                console.log("Musique bloquée, on attend un clic");
+                // Si bloqué, on attend le clic sur le bouton d'intro
+                startBtn.addEventListener('click', () => {
                     backgroundMusic.play().catch(e => {
                         console.log("Musique toujours bloquée");
                     });
-                    // Retirer l'écouteur après la première interaction
-                    document.removeEventListener('click', startMusicOnInteraction);
-                    document.removeEventListener('touchstart', startMusicOnInteraction);
-                };
-                
-                document.addEventListener('click', startMusicOnInteraction);
-                document.addEventListener('touchstart', startMusicOnInteraction);
+                }, { once: true });
             });
         }
     } catch (e) {
-        console.log("Erreur lors du démarrage de la musique");
+        console.log("Erreur musique");
     }
 }
 
-/* SYSTÈME "BULLDOZER" - LOGIQUE DE PPOUSSEE */
+// Faire vibrer le téléphone (si supporté)
+function vibratePhone() {
+    if ("vibrate" in navigator) {
+        // Vibration courte
+        navigator.vibrate(100);
+        
+        // Vibration plus longue quand on clique plusieurs fois sur "Non"
+        if (clickCount > 5) {
+            navigator.vibrate([100, 50, 100]);
+        }
+        if (clickCount > 10) {
+            navigator.vibrate([100, 50, 100, 50, 100]);
+        }
+    }
+}
+
+/* ==================== ÉCRAN D'INTRO ==================== */
+
+startBtn.addEventListener('click', () => {
+    // Animation de disparition de l'intro
+    introScreen.style.opacity = '0';
+    
+    // Vibration pour mobile
+    vibratePhone();
+    
+    setTimeout(() => {
+        introScreen.style.display = 'none';
+        container.style.display = 'block';
+        
+        // Redémarrer la musique si elle n'a pas pu démarrer avant
+        backgroundMusic.play().catch(() => {});
+        
+        // Position initiale des boutons
+        setTimeout(() => {
+            bulldozerSystem();
+        }, 100);
+    }, 800);
+});
+
+/* ==================== CORRECTION 3: ANCIEN SYSTÈME BULLDOZER ==================== */
+
 function bulldozerSystem() {
+    // Récupérer les dimensions VISUELLES des boutons
     const yesRect = yesBtn.getBoundingClientRect();
     const noRect = noBtn.getBoundingClientRect();
     
+    // DÉTECTION DE COLLISION : bord droit de OUI vs bord gauche de NON
     const collision = yesRect.right > noRect.left && 
                       yesRect.left < noRect.right && 
                       yesRect.bottom > noRect.top && 
                       yesRect.top < noRect.bottom;
     
     if (collision) {
+        // CALCUL DE LA POURSUITE :
+        // 1. De combien le bouton OUI dépasse le bouton NON?
         const overlapX = yesRect.right - noRect.left;
-        const desiredX = noRect.left + overlapX + 100;
         
+        // 2. Nouvelle position X souhaitée pour le bouton NON
+        const desiredX = noRect.left + overlapX + 100; // 100px de marge
+        
+        // 3. Vérifier les limites de l'écran (LE MUR)
         const screenWidth = window.innerWidth;
         const noBtnWidth = noRect.width;
-        const maxAllowedX = screenWidth - noBtnWidth - 10;
+        const maxAllowedX = screenWidth - noBtnWidth - 10; // 10px de marge du bord
         
         let finalX;
         
+        // LE MUR : si la position souhaitée dépasse l'écran
         if (desiredX > maxAllowedX) {
             finalX = maxAllowedX;
         } else {
             finalX = desiredX;
         }
         
+        // Convertir la position pixel en pourcentage pour le CSS
         const containerRect = document.getElementById("container").getBoundingClientRect();
         const newLeftPercent = ((finalX - containerRect.left) / containerRect.width) * 100;
         
+        // Appliquer la nouvelle position
         noBtn.style.left = `${newLeftPercent}%`;
         
+        // Vérifier si le bouton est maintenant au bord
         if (finalX >= maxAllowedX - 5) {
+            // Animation spéciale pour le bouton bloqué
             noBtn.style.animation = "none";
             setTimeout(() => {
                 noBtn.style.transform = "translate(-50%, -50%) scale(1.05)";
@@ -695,91 +782,71 @@ function bulldozerSystem() {
     }
 }
 
-/* FONCTION DE VIBRATION POUR MOBILE */
-function vibrateDevice() {
-    if (navigator.vibrate) {
-        // Vibration sur mobile : 100ms vibration, 50ms pause, 100ms vibration
-        navigator.vibrate([100, 50, 100]);
-        console.log("📱 Vibration activée");
-    }
-}
+/* ==================== BOUTON "NON" ==================== */
 
-/* PASSAGE DE L'INTRO À L'ÉCRAN PRINCIPAL */
-introBtn.addEventListener("click", () => {
-    // Animation de transition
-    introScreen.style.opacity = "0";
-    introScreen.style.transform = "scale(0.9)";
-    introScreen.style.transition = "all 0.5s ease";
-    
-    setTimeout(() => {
-        introScreen.style.display = "none";
-        container.style.display = "block";
-        
-        // Petite animation d'apparition
-        container.style.opacity = "0";
-        container.style.transform = "scale(0.9)";
-        
-        setTimeout(() => {
-            container.style.opacity = "1";
-            container.style.transform = "scale(1)";
-            container.style.transition = "all 0.5s ease";
-        }, 50);
-        
-        // Position initiale des boutons
-        setTimeout(() => {
-            bulldozerSystem();
-        }, 100);
-    }, 500);
-    
-    // Vibration sur mobile
-    vibrateDevice();
-});
-
-/* EFFET QUAND ON CLIQUE SUR "NON" */
 noBtn.addEventListener("click", () => {
     clickCount++;
     
-    // 1. AGRANDISSEMENT VISUEL DU BOUTON OUI
+    // Vibration mobile
+    vibratePhone();
+    
+    // Animation de secousse pour le bouton "Non"
+    noBtn.classList.add('vibrate');
+    setTimeout(() => {
+        noBtn.classList.remove('vibrate');
+    }, 300);
+    
+    // Agrandir le bouton "Oui"
     yesScale += 0.25;
     yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
     
-    // 2. CHANGER LE TEXTE DU BOUTON "NON" (plus de choix maintenant)
+    // Changer le texte du bouton "Non"
     const textIndex = Math.min(clickCount - 1, noBtnTexts.length - 1);
     noBtn.textContent = noBtnTexts[textIndex];
     
-    // 3. SYSTÈME BULLDOZER
+    // Si on arrive à la fin des messages, on recommence mais en plus court
+    if (clickCount > noBtnTexts.length) {
+        const randomIndex = Math.floor(Math.random() * (noBtnTexts.length - 5)) + 5;
+        noBtn.textContent = noBtnTexts[randomIndex];
+    }
+    
+    // Ajuster la taille de police si le texte est trop long
+    if (noBtn.textContent.length > 20) {
+        noBtn.style.fontSize = 'clamp(12px, 2.8vw, 14px)';
+        noBtn.style.padding = '8px 12px';
+    } else if (noBtn.textContent.length > 15) {
+        noBtn.style.fontSize = 'clamp(13px, 3vw, 15px)';
+        noBtn.style.padding = '10px 14px';
+    }
+    
+    // CORRECTION 3: Utilisation de l'ancien système bulldozer
     setTimeout(() => {
         bulldozerSystem();
     }, 10);
     
-    // 4. ANIMATION DE SECOUSSE + VIBRATION MOBILE
+    // Animation de secousse
     noBtn.style.transform = `translate(-50%, -50%) scale(0.9)`;
-    noBtn.classList.add('vibrate');
-    
-    // Vibration sur mobile
-    vibrateDevice();
-    
     setTimeout(() => {
         noBtn.style.transform = `translate(-50%, -50%) scale(1)`;
-        noBtn.classList.remove('vibrate');
     }, 200);
-    
-    // Si on a épuisé tous les textes, on recommence
-    if (clickCount >= noBtnTexts.length) {
-        noBtn.textContent = noBtnTexts[noBtnTexts.length - 1];
-    }
 });
 
-/* 💖 QUAND ELLE DIT OUI */
+/* ==================== BOUTON "OUI" ==================== */
+
 yesBtn.addEventListener("click", () => {
     question.style.display = "none";
     buttonArea.style.display = "none";
     
-    // REMPLACER LE GIF
+    // Vibration finale pour mobile
+    if ("vibrate" in navigator) {
+        navigator.vibrate([100, 50, 100, 50, 200]);
+    }
+    
+    // Remplacer le GIF
     firstGif.style.display = "none";
     newGif.style.display = "block";
     
-    // AFFICHER LE PREMIER MESSAGE
+    // Afficher le premier message
     finalMessage.style.display = "block";
     
     // Message supplémentaire après 1.5 secondes
@@ -787,26 +854,22 @@ yesBtn.addEventListener("click", () => {
         secondMessage.style.display = "block";
     }, 1500);
     
-    // JOUER LE SON SYNTHÉTIQUE DE CÉLÉBRATION
+    // Son synthétique de célébration
     playSyntheticCelebrationSound();
     
-    // VIBRATION FORTE SUR MOBILE POUR LA CÉLÉBRATION
-    if (navigator.vibrate) {
-        navigator.vibrate([200, 100, 200, 100, 300]);
-    }
-    
-    // DÉMARRER LES EFFETS
+    // Démarrer les effets
     startLoveRain();
     startFireworks();
     
-    // CORRECTION DU BUG DE SCROLL
+    // Correction du bug de scroll
     setTimeout(() => {
         window.scrollTo(0, 0);
         document.body.style.overflow = 'hidden';
     }, 100);
 });
 
-/* 🔊 SON SYNTHÉTIQUE DE CÉLÉBRATION */
+/* ==================== SON SYNTHÉTIQUE ==================== */
+
 function playSyntheticCelebrationSound() {
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -817,26 +880,23 @@ function playSyntheticCelebrationSound() {
         gainNode.connect(audioContext.destination);
         
         oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
+        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
         
-        // Mélodie plus joyeuse et célébrative
-        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // DO
-        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // MI
-        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // SOL
-        oscillator.frequency.setValueAtTime(1046.50, audioContext.currentTime + 0.3); // DO aigu
-        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.4); // SOL
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
         
-        gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.8);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.5);
         
     } catch (e) {
         console.log("Audio synthétique non supporté");
     }
 }
 
-/* 💖 PLUIE D'EMOJIS */
+/* ==================== EFFETS VISUELS ==================== */
+
 function startLoveRain() {
     const emojis = [
         "💖", "💘", "💝", "💕", "💗", "💓", "💞","❣️", 
@@ -859,10 +919,10 @@ function startLoveRain() {
     document.body.appendChild(emojiContainer);
     
     let emojiCount = 0;
-    const maxEmojis = 50;
+    const maxEmojis = 40;
     
     const interval = setInterval(() => {
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 1; i++) {
             if (emojiCount >= maxEmojis) {
                 clearInterval(interval);
                 return;
@@ -876,7 +936,7 @@ function startLoveRain() {
             el.style.top = (50 + Math.random() * 40) + "vh";
             el.style.position = "fixed";
             
-            const size = 20 + Math.random() * 30;
+            const size = 20 + Math.random() * 25;
             el.style.fontSize = size + "px";
             
             const duration = 3 + Math.random() * 4;
@@ -893,12 +953,11 @@ function startLoveRain() {
                 }
             }, duration * 1000);
         }
-    }, 300);
+    }, 400);
     
-    setTimeout(() => clearInterval(interval), 25000);
+    setTimeout(() => clearInterval(interval), 20000);
 }
 
-/* 🎆 FEUX D'ARTIFICE */
 function startFireworks() {
     const colors = [
         "#ff4d6d", "#ff9a00", "#f6ff00", "#4dff4d", 
@@ -906,7 +965,7 @@ function startFireworks() {
     ];
     
     let fireworkCount = 0;
-    const maxFireworks = 15;
+    const maxFireworks = 12;
     
     const interval = setInterval(() => {
         if (fireworkCount >= maxFireworks) {
@@ -917,7 +976,7 @@ function startFireworks() {
         const x = Math.random() * window.innerWidth;
         const y = Math.random() * (window.innerHeight / 2);
         
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 20; i++) {
             const p = document.createElement("div");
             p.className = "particle";
             p.style.left = x + "px";
@@ -925,13 +984,13 @@ function startFireworks() {
             p.style.background = colors[Math.floor(Math.random() * colors.length)];
             
             const angle = Math.random() * 2 * Math.PI;
-            const dist = 80 + Math.random() * 70;
+            const dist = 70 + Math.random() * 50;
             const duration = 0.8 + Math.random() * 0.5;
             
             p.style.setProperty('--x', Math.cos(angle) * dist + "px");
             p.style.setProperty('--y', Math.sin(angle) * dist + "px");
             p.style.animationDuration = duration + "s";
-            p.style.width = (6 + Math.random() * 6) + "px";
+            p.style.width = (5 + Math.random() * 5) + "px";
             p.style.height = p.style.width;
             
             document.body.appendChild(p);
@@ -943,53 +1002,55 @@ function startFireworks() {
         }
         
         fireworkCount++;
-    }, 800);
+    }, 1000);
     
-    setTimeout(() => clearInterval(interval), 20000);
+    setTimeout(() => clearInterval(interval), 15000);
 }
 
-/* INITIALISATION */
+/* ==================== INITIALISATION AU CHARGEMENT ==================== */
+
 window.addEventListener("load", () => {
-    // Démarrer la musique IMMÉDIATEMENT
-    startBackgroundMusic();
-    
-    // Position initiale
     window.scrollTo(0, 0);
     document.body.style.overflow = 'hidden';
     
-    // Afficher l'intro
-    introScreen.style.display = "flex";
-    container.style.display = "none";
+    // CORRECTION 1 & 2: Créer le texte d'intro avec animation vague pour TOUTES les lettres
+    createWaveText();
+    
+    // Démarrer la musique IMMÉDIATEMENT
+    startBackgroundMusic();
 });
 
-/* GESTION DE LA VISIBILITÉ */
+/* ==================== GESTION DES ÉVÉNEMENTS ==================== */
+
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         backgroundMusic.pause();
     } else {
-        backgroundMusic.play().catch(e => {
-            console.log("Impossible de reprendre la musique");
-        });
+        backgroundMusic.play().catch(() => {});
     }
 });
 
-/* EMPÊCHER LE SCROLL */
 document.addEventListener('scroll', (e) => {
     e.preventDefault();
     window.scrollTo(0, 0);
 }, { passive: false });
 
-/* EMPÊCHER LE ZOOM */
 document.addEventListener('touchmove', (e) => {
     if (e.touches.length > 1) {
         e.preventDefault();
     }
 }, { passive: false });
 
-/* GESTION DE LA FERMETURE */
 window.addEventListener('beforeunload', () => {
     backgroundMusic.pause();
     backgroundMusic.currentTime = 0;
+});
+
+// Redimensionnement
+window.addEventListener('resize', () => {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
+    bulldozerSystem();
 });
 </script>
 
