@@ -65,6 +65,7 @@ body::before {
     align-items: center;
     z-index: 100;
     transition: opacity 0.8s ease;
+    padding: 20px;
 }
 
 .intro-gif {
@@ -76,7 +77,7 @@ body::before {
     background-color: transparent;
 }
 
-/* CORRECTION 1: Texte intro avec sauts de ligne sur mobile */
+/* CORRECTION 1: Texte d'intro responsive avec saut de ligne */
 .wave-text {
     display: block;
     font-size: clamp(24px, 5vw, 32px);
@@ -84,7 +85,8 @@ body::before {
     text-align: center;
     margin-bottom: 40px;
     padding: 0 20px;
-    width: 100%;
+    line-height: 1.4;
+    max-width: 90%;
 }
 
 .wave-text span {
@@ -105,7 +107,7 @@ body::before {
     50% { transform: translateY(-12px); }
 }
 
-/* Décalage progressif pour chaque lettre - TOUS LES CARACTÈRES */
+/* Décalage progressif pour chaque lettre */
 .wave-text span:nth-child(1)  { animation-delay: 0s; }
 .wave-text span:nth-child(2)  { animation-delay: 0.05s; }
 .wave-text span:nth-child(3)  { animation-delay: 0.1s; }
@@ -250,7 +252,7 @@ button {
     padding: 14px 24px;
     font-size: clamp(15px, 3.5vw, 18px);
     border: none;
-    border-radius: 7px;
+    border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
@@ -277,7 +279,7 @@ button {
     padding: 14px 28px;
 }
 
-/* BOUTON NON - AMÉLIORÉ POUR MOBILE */
+/* BOUTON NON - Position initiale */
 #noBtn {
     background: linear-gradient(45deg, var(--dark-gray), #666);
     color: var(--white);
@@ -288,6 +290,21 @@ button {
     padding: 12px 20px;
     font-size: clamp(14px, 3.2vw, 16px);
     max-width: 85vw;
+    transition: left 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* CORRECTION 2: Animation de vibration qui n'affecte pas la position */
+@keyframes vibrate {
+    0% { transform: scale(1) rotate(0deg); }
+    20% { transform: scale(1.05) rotate(-2deg); }
+    40% { transform: scale(1) rotate(2deg); }
+    60% { transform: scale(1.05) rotate(-1deg); }
+    80% { transform: scale(1) rotate(1deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.vibrate {
+    animation: vibrate 0.3s ease-in-out;
 }
 
 @keyframes pulse {
@@ -401,10 +418,6 @@ button:hover {
     }
 }
 
-/* CORRECTION 2: SUPPRIMER L'ANIMATION DE VIBRATION VISUELLE */
-/* Cette animation a été complètement supprimée */
-/* Pas de @keyframes vibrate ni de classe .vibrate */
-
 /* Adaptation responsive */
 @media (max-width: 768px) {
     .intro-gif {
@@ -417,7 +430,7 @@ button:hover {
         margin-bottom: 30px;
         white-space: normal;
         word-wrap: break-word;
-        line-height: 1.4;
+        line-height: 1.5;
     }
     
     .container {
@@ -455,11 +468,17 @@ button:hover {
         font-size: 22px;
     }
     
-    /* Sur mobile, bouton Non en bas */
+    /* Sur mobile, position initiale différente pour le bouton Non */
     #noBtn {
-        transform: translate(-50%, 50%);
-        top: auto;
-        bottom: 0;
+        left: 50%;
+        top: 70%;
+        transform: translate(-50%, -50%);
+    }
+    
+    #yesBtn {
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%, -50%) scale(1);
     }
 }
 
@@ -472,8 +491,7 @@ button:hover {
     .wave-text {
         font-size: clamp(18px, 4vw, 22px);
         margin-bottom: 25px;
-        padding: 0 15px;
-        line-height: 1.3;
+        line-height: 1.4;
     }
     
     #startBtn {
@@ -496,7 +514,6 @@ button:hover {
     }
     
     .buttons {
-        flex-direction: column;
         height: 140px;
     }
     
@@ -515,7 +532,6 @@ button:hover {
     #noBtn {
         left: 50%;
         top: 70%;
-        transform: translate(-50%, -50%);
         padding: 10px 14px;
         font-size: 13px;
         max-width: 75vw;
@@ -530,11 +546,6 @@ button:hover {
 @media (max-width: 320px) {
     .wave-text span {
         animation-duration: 2s;
-    }
-    
-    .wave-text {
-        font-size: clamp(16px, 3.5vw, 20px);
-        line-height: 1.2;
     }
     
     #noBtn {
@@ -572,8 +583,7 @@ button:hover {
         OUIIIII 😍💞💓💗💖💘💕💍✨
     </div>
     <div id="secondMessage">
-        Oula la. . .allons allons allons
-        LOVE YOU. . .KANTOUMMMMMM💗💗
+        Je savais que tu allais tout de suite accepter 💖
     </div>
 </div>
 
@@ -603,7 +613,7 @@ const backgroundMusic = document.getElementById("backgroundMusic");
 let yesScale = 1;
 let clickCount = 0;
 
-// Texte amélioré pour le bouton "Non" (plus de messages)
+// Texte amélioré pour le bouton "Non"
 const noBtnTexts = [
     "Non 😢",
     "Tu es sûre ? 😕",
@@ -639,7 +649,7 @@ const noBtnTexts = [
 
 /* ==================== INITIALISATION ==================== */
 
-// CORRECTION 1: Créer le texte d'intro avec gestion des sauts de ligne
+// CORRECTION 1: Créer le texte d'intro avec gestion responsive
 function createWaveText() {
     const text = "J'ai quelque chose d'important à te demander…";
     waveText.innerHTML = '';
@@ -650,7 +660,7 @@ function createWaveText() {
         // Gestion spéciale pour les espaces
         if (text[i] === ' ') {
             span.className = 'space';
-            span.innerHTML = '&nbsp;'; // Espace insécable visible
+            span.innerHTML = '&nbsp;';
         } else {
             span.textContent = text[i];
         }
@@ -659,13 +669,12 @@ function createWaveText() {
     }
 }
 
-// Démarrer la musique IMMÉDIATEMENT
+// Démarrer la musique
 function startBackgroundMusic() {
     try {
         backgroundMusic.volume = 0.3;
         backgroundMusic.loop = true;
         
-        // Essayer de jouer immédiatement
         const playPromise = backgroundMusic.play();
         
         if (playPromise !== undefined) {
@@ -673,7 +682,6 @@ function startBackgroundMusic() {
                 console.log("🎵 Musique démarrée automatiquement");
             }).catch(error => {
                 console.log("Musique bloquée, on attend un clic");
-                // Si bloqué, on attend le clic sur le bouton d'intro
                 startBtn.addEventListener('click', () => {
                     backgroundMusic.play().catch(e => {
                         console.log("Musique toujours bloquée");
@@ -686,13 +694,11 @@ function startBackgroundMusic() {
     }
 }
 
-// CORRECTION 2: Faire vibrer le téléphone (vibration haptique uniquement)
+// Faire vibrer le téléphone
 function vibratePhone() {
     if ("vibrate" in navigator) {
-        // Vibration courte - uniquement haptique, pas d'animation visuelle
         navigator.vibrate(100);
         
-        // Vibration plus longue quand on clique plusieurs fois sur "Non"
         if (clickCount > 5) {
             navigator.vibrate([100, 50, 100]);
         }
@@ -702,98 +708,86 @@ function vibratePhone() {
     }
 }
 
-/* ==================== ÉCRAN D'INTRO ==================== */
-
-startBtn.addEventListener('click', () => {
-    // Animation de disparition de l'intro
-    introScreen.style.opacity = '0';
-    
-    // Vibration pour mobile (haptique uniquement)
-    vibratePhone();
-    
-    setTimeout(() => {
-        introScreen.style.display = 'none';
-        container.style.display = 'block';
-        
-        // Redémarrer la musique si elle n'a pas pu démarrer avant
-        backgroundMusic.play().catch(() => {});
-        
-        // Position initiale des boutons
-        setTimeout(() => {
-            bulldozerSystem();
-        }, 100);
-    }, 800);
-});
-
-/* ==================== CORRECTION 3: ANCIEN SYSTÈME BULLDOZER ==================== */
+/* ==================== CORRECTION 2: SYSTÈME BULLDOZER AMÉLIORÉ ==================== */
 
 function bulldozerSystem() {
-    // Récupérer les dimensions VISUELLES des boutons
+    // Récupérer les dimensions des boutons
     const yesRect = yesBtn.getBoundingClientRect();
     const noRect = noBtn.getBoundingClientRect();
     
-    // DÉTECTION DE COLLISION : bord droit de OUI vs bord gauche de NON
+    // Détection de collision
     const collision = yesRect.right > noRect.left && 
                       yesRect.left < noRect.right && 
                       yesRect.bottom > noRect.top && 
                       yesRect.top < noRect.bottom;
     
     if (collision) {
-        // CALCUL DE LA POURSUITE :
-        // 1. De combien le bouton OUI dépasse le bouton NON?
+        // Calcul de l'overlap
         const overlapX = yesRect.right - noRect.left;
         
-        // 2. Nouvelle position X souhaitée pour le bouton NON
-        const desiredX = noRect.left + overlapX + 120; // 100px de marge
+        // Nouvelle position souhaitée
+        const desiredX = noRect.left + overlapX + 20; // 20px de marge
         
-        // 3. Vérifier les limites de l'écran (LE MUR)
+        // Vérifier les limites de l'écran
         const screenWidth = window.innerWidth;
         const noBtnWidth = noRect.width;
         const maxAllowedX = screenWidth - noBtnWidth - 10; // 10px de marge du bord
         
         let finalX;
         
-        // LE MUR : si la position souhaitée dépasse l'écran
+        // Gestion du mur
         if (desiredX > maxAllowedX) {
             finalX = maxAllowedX;
         } else {
             finalX = desiredX;
         }
         
-        // Convertir la position pixel en pourcentage pour le CSS
+        // Convertir en pourcentage relatif au conteneur
         const containerRect = document.getElementById("container").getBoundingClientRect();
         const newLeftPercent = ((finalX - containerRect.left) / containerRect.width) * 100;
         
-        // Appliquer la nouvelle position
+        // Appliquer la nouvelle position via CSS uniquement
         noBtn.style.left = `${newLeftPercent}%`;
         
-        // Vérifier si le bouton est maintenant au bord
+        // Effet visuel quand le bouton atteint le bord
         if (finalX >= maxAllowedX - 5) {
-            // Animation spéciale pour le bouton bloqué
-            noBtn.style.animation = "none";
+            noBtn.style.boxShadow = "0 0 0 3px #ff4d6d";
             setTimeout(() => {
-                noBtn.style.transform = "translate(-50%, -50%) scale(1.05)";
-                noBtn.style.boxShadow = "0 0 0 3px #ff4d6d";
-                setTimeout(() => {
-                    noBtn.style.transform = "translate(-50%, -50%) scale(1)";
-                    noBtn.style.boxShadow = "0 6px 20px var(--shadow)";
-                }, 300);
-            }, 100);
+                noBtn.style.boxShadow = "0 6px 20px var(--shadow)";
+            }, 300);
         }
     }
 }
+
+/* ==================== ÉCRAN D'INTRO ==================== */
+
+startBtn.addEventListener('click', () => {
+    introScreen.style.opacity = '0';
+    
+    vibratePhone();
+    
+    setTimeout(() => {
+        introScreen.style.display = 'none';
+        container.style.display = 'block';
+        
+        backgroundMusic.play().catch(() => {});
+        
+        // Initialiser le système bulldozer
+        setTimeout(() => {
+            bulldozerSystem();
+        }, 100);
+    }, 800);
+});
 
 /* ==================== BOUTON "NON" ==================== */
 
 noBtn.addEventListener("click", () => {
     clickCount++;
     
-    // CORRECTION 2: Vibration mobile uniquement (haptique)
+    // Vibration mobile
     vibratePhone();
     
-    // CORRECTION 2: SUPPRIMER L'ANIMATION DE VIBRATION VISUELLE
-    // On ne fait plus d'animation visuelle de vibration
-    
+    // CORRECTION 2: Animation de vibration qui n'affecte pas la position
     // Agrandir le bouton "Oui"
     yesScale += 0.25;
     yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
@@ -802,13 +796,12 @@ noBtn.addEventListener("click", () => {
     const textIndex = Math.min(clickCount - 1, noBtnTexts.length - 1);
     noBtn.textContent = noBtnTexts[textIndex];
     
-    // Si on arrive à la fin des messages, on recommence mais en plus court
     if (clickCount > noBtnTexts.length) {
         const randomIndex = Math.floor(Math.random() * (noBtnTexts.length - 5)) + 5;
         noBtn.textContent = noBtnTexts[randomIndex];
     }
     
-    // Ajuster la taille de police si le texte est trop long
+    // Ajuster la taille de police
     if (noBtn.textContent.length > 20) {
         noBtn.style.fontSize = 'clamp(12px, 2.8vw, 14px)';
         noBtn.style.padding = '8px 12px';
@@ -817,16 +810,10 @@ noBtn.addEventListener("click", () => {
         noBtn.style.padding = '10px 14px';
     }
     
-    // CORRECTION 3: Utilisation de l'ancien système bulldozer
+    // Appliquer l'effet bulldozer
     setTimeout(() => {
         bulldozerSystem();
     }, 10);
-    
-    // Animation de secousse légère (sans vibration visuelle)
-    noBtn.style.transform = `translate(-50%, -50%) scale(0.9)`;
-    setTimeout(() => {
-        noBtn.style.transform = `translate(-50%, -50%) scale(1)`;
-    }, 200);
 });
 
 /* ==================== BOUTON "OUI" ==================== */
@@ -835,7 +822,7 @@ yesBtn.addEventListener("click", () => {
     question.style.display = "none";
     buttonArea.style.display = "none";
     
-    // CORRECTION 2: Vibration finale pour mobile (haptique uniquement)
+    // Vibration finale pour mobile
     if ("vibrate" in navigator) {
         navigator.vibrate([100, 50, 100, 50, 200]);
     }
@@ -1011,10 +998,10 @@ window.addEventListener("load", () => {
     window.scrollTo(0, 0);
     document.body.style.overflow = 'hidden';
     
-    // CORRECTION 1: Créer le texte d'intro avec gestion des sauts de ligne
+    // CORRECTION 1: Créer le texte d'intro
     createWaveText();
     
-    // Démarrer la musique IMMÉDIATEMENT
+    // Démarrer la musique
     startBackgroundMusic();
 });
 
@@ -1054,4 +1041,3 @@ window.addEventListener('resize', () => {
 
 </body>
 </html>
-
